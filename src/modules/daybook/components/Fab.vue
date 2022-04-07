@@ -1,12 +1,18 @@
 <template>
     <button class="btn btn-primary">
-        <i class="fa fa-1x fa-plus"></i>
+        <i v-bind:class="'fa fa-1x '+ icon"></i>
     </button>
 </template>
 
 <script>
 export default {
+    props:{
+        icon: {
+            type: String,
+            default: "fa-plus",
 
+        },
+    }
 }
 </script>
 

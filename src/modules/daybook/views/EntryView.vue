@@ -19,7 +19,9 @@
     <hr />
     <div class="d-flex flex-column px-3 h-75">
         <textarea placeholder="¿Qué sucedió hoy?"></textarea>
-        <Fab />
+        <Fab
+            icon="fa-save"
+        />
         <img
             src="https://www.batiburrillo.net/wp-content/uploads/2019/07/Ampliacio%CC%81n-de-imagen-en-li%CC%81nea-sin-perder-calidad.jpg"
             alt="entry-pictue"
