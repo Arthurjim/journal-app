@@ -9,7 +9,7 @@
             />
         </div>
         <div class="entry-scollarea">
-            <Entry v-for="entry in entriesByTerm" :key="entry.id" />
+            <Entry v-for="entry in entriesByTerm" :key="entry.id" :entry="entry" />
         </div>
     </div>
 </template>

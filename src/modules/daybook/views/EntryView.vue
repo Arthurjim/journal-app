@@ -19,9 +19,7 @@
     <hr />
     <div class="d-flex flex-column px-3 h-75">
         <textarea placeholder="¿Qué sucedió hoy?"></textarea>
-        <Fab
-            icon="fa-save"
-        />
+        <Fab icon="fa-save" />
         <img
             src="https://www.batiburrillo.net/wp-content/uploads/2019/07/Ampliacio%CC%81n-de-imagen-en-li%CC%81nea-sin-perder-calidad.jpg"
             alt="entry-pictue"
@@ -32,28 +30,47 @@
 
 <script>
 import { defineAsyncComponent } from "vue";
+import { mapGetters } from "vuex";
 export default {
+    props: {
+        id: {
+            type: String,
+            required: true,
+        },
+    },
     components: {
         Fab: defineAsyncComponent(() => import("../components/Fab.vue")),
+    },
+    computed: {
+        ...mapGetters("journal", ["getEntriesById"]),
+    },
+    methods: {
+        loadEntry() {
+            const entry = this.getEntriesById(this.id);
+            console.log(entry)
+        },
+    },
+    created() {
+       this.loadEntry()
     },
 };
 </script>
 
 <style lang="scss" scoped>
-textarea{
-  font-size: 20px;
-  border: none;
-  height: 100%;
+textarea {
+    font-size: 20px;
+    border: none;
+    height: 100%;
 
-  &:focus{
-    outline: none;
-  }
+    &:focus {
+        outline: none;
+    }
 }
-img{
-  width:200px;
-  position: fixed;
-  bottom: 150px;
-  right: 20px;
-  box-shadow: 0px 5px 10px rgba($color: #000000, $alpha: 0.2);
+img {
+    width: 200px;
+    position: fixed;
+    bottom: 150px;
+    right: 20px;
+    box-shadow: 0px 5px 10px rgba($color: #000000, $alpha: 0.2);
 }
 </style>

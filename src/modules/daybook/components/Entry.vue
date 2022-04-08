@@ -1,26 +1,60 @@
 <template>
-    <div class="entry-container mb-3 pointer p-2" @click="$router.push({name:'entry',params:{id:1}})">
-        <div class="entry-title d-flex ">
-            <span class="text-succes fs-5 fw-bold">04</span>
-            <span class="mx-1 fs-5">Abril</span>
-            <span class="mx-5 fw-light">2022, dLunes</span>
+    <div
+        class="entry-container mb-3 pointer p-2"
+        @click="$router.push({ name: 'entry', params: { id: entry.id } })"
+    >
+        <div class="entry-title d-flex">
+            <span class="text-succes fs-5 fw-bold">{{day}}</span>
+            <span class="mx-1 fs-5">{{month}}</span>
+            <span class="mx-5 fw-light">{{yearDay}}</span>
         </div>
         <div class="entry-description">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo voluptatibus ipsum consequuntur commodi aliquid quibusdam eaque excepturi, quidem sunt, aliquam rerum neque eligendi quod delectus doloribus exercitationem nam repudiandae omnis.
+            {{ shortText}}
         </div>
     </div>
 </template>
 
+<script>
+const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio','Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+const days   = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado']
+export default {
+    props: {
+        entry: {
+            type: Object,
+            required: true,
+        },
+    },
+    computed: {
+        shortText() {
+            return this.entry.text.length > 130
+                ? this.entry.text.substring(0, 130) + "..."
+                : this.entry.text;
+        },
+        day(){
+            const date = new Date(this.entry.date);
+            return date.getDate()
+        },
+        month(){
+            const date = new Date(this.entry.date);
+            return months[date.getMonth()]
+        },
+        yearDay(){
+            const date = new Date(this.entry.date);
+            return `${date.getFullYear()}, ${days[date.getDay()]}`
+        }
+    },
+};
+</script>
 <style lang="scss" scoped>
-.entry-container{
+.entry-container {
     border-bottom: 1px solid #2c3e50;
-    transition: all .3s ease;
-    &:hover{
+    transition: all 0.3s ease;
+    &:hover {
         background-color: #2c3e50;
         /* background-color: lighten($color: rgb(32, 31, 31), $amount: 45); */
         color: #fff;
     }
-    .entry-description{
+    .entry-description {
         font-size: 12px;
     }
 }
