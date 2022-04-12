@@ -7,7 +7,7 @@ const journalModule = {
     namespaced: true,
     actions,
     getters,
-    mutation,
+    mutations: mutation,
     state,
 };
 
