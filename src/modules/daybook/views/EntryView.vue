@@ -1,33 +1,37 @@
 <template>
-    <div class="entry-title d-flex justify-content-between p-2">
-        <div>
-            <span class="text-success fs-3 fw-bold">{{day}}</span>
-            <span class="mx-1 fs-3">{{month}}</span>
-            <span class="mx-2 fs-4 fw-light">{{yearDay}}</span>
+    <template v-if="entry">
+
+
+        <div  class="entry-title d-flex justify-content-between p-2">
+            <div>
+                <span class="text-success fs-3 fw-bold">{{day}}</span>
+                <span class="mx-1 fs-3">{{month}}</span>
+                <span class="mx-2 fs-4 fw-light">{{yearDay}}</span>
+            </div>
+            <div>
+                <button class="btn btn-danger mx-2">
+                    Borrar
+                    <i class="fa fa-trash-alt"></i>
+                </button>
+                <button class="btn btn-primary mx-2">
+                    Subir Foto
+                    <i class="fa fa-upload"></i>
+                </button>
+            </div>
         </div>
-        <div>
-            <button class="btn btn-danger mx-2">
-                Borrar
-                <i class="fa fa-trash-alt"></i>
-            </button>
-            <button class="btn btn-primary mx-2">
-                Subir Foto
-                <i class="fa fa-upload"></i>
-            </button>
+        <hr />
+        <div  class="d-flex flex-column px-3 h-75">
+            <textarea placeholder="¿Qué sucedió hoy?" v-model="entry.text">
+                
+            </textarea>
+            <Fab icon="fa-save" />
+            <img
+                src="https://www.batiburrillo.net/wp-content/uploads/2019/07/Ampliacio%CC%81n-de-imagen-en-li%CC%81nea-sin-perder-calidad.jpg"
+                alt="entry-pictue"
+                class="img-thumbnail"
+            />
         </div>
-    </div>
-    <hr />
-    <div class="d-flex flex-column px-3 h-75">
-        <textarea placeholder="¿Qué sucedió hoy?" v-model="entry.text">
-            
-        </textarea>
-        <Fab icon="fa-save" />
-        <img
-            src="https://www.batiburrillo.net/wp-content/uploads/2019/07/Ampliacio%CC%81n-de-imagen-en-li%CC%81nea-sin-perder-calidad.jpg"
-            alt="entry-pictue"
-            class="img-thumbnail"
-        />
-    </div>
+    </template>
 </template>
 
 <script>
@@ -69,7 +73,7 @@ export default {
         loadEntry() {
             const entry = this.getEntriesById(this.id);
             if(!entry){
-               this.$router.push({name:'no-entry'});
+               return this.$router.push({name:'no-entry'});
             }
             
                 this.entry = entry;
@@ -79,7 +83,13 @@ export default {
     created() {
        this.loadEntry()
     },
-  
+    watch:{
+        id(value, oldValue){
+            if(value !== oldValue){
+                this.loadEntry();
+            }
+        }
+    }
 };
 </script>
 
