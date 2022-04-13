@@ -89,7 +89,7 @@ export default {
 
                 await this.updateEntry(this.entry);
             }else{
-                // await this.createEntry(this.entry);
+                await this.createEntry(this.entry);
 
             }
             // console.log('Guardando entrada')
