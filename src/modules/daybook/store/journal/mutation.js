@@ -10,6 +10,6 @@ export const updateEntry = (state,entry)=>{
     state.entries = state.entries.map(item =>entry.id === item.id ? entry : item)
 }
 export const addEntry = (state,entry)=>{
-    state.entries = [...state.entries, entry]
+    state.entries = [entry,...state.entries]
 
 }

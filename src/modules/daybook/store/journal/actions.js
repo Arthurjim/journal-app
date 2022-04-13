@@ -29,4 +29,5 @@ export const createEntry = async ({commit},entry) => {
         ...entry
     }
     commit("addEntry",newEntry)
+    return  data.name
 };

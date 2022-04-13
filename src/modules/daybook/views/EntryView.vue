@@ -89,8 +89,8 @@ export default {
 
                 await this.updateEntry(this.entry);
             }else{
-                await this.createEntry(this.entry);
-
+               const id = await this.createEntry(this.entry);
+                this.$router.push({name:'entry',params:{id}})
             }
             // console.log('Guardando entrada')
         },
