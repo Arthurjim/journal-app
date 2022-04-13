@@ -1,5 +1,5 @@
 <template>
-    <button class="btn btn-primary">
+    <button @click="$emit('on-click')" class="btn btn-primary">
         <i v-bind:class="'fa fa-1x '+ icon"></i>
     </button>
 </template>
@@ -11,8 +11,14 @@ export default {
             type: String,
             default: "fa-plus",
 
-        },
-    }
+        }
+    },
+    // methods:{
+    //     clickF(){
+    //         this.$emit('on-click', this.icon);
+    //     }
+    // }
+
 }
 </script>
 

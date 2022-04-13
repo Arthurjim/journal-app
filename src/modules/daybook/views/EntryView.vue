@@ -24,7 +24,7 @@
             <textarea placeholder="¿Qué sucedió hoy?" v-model="entry.text">
                 
             </textarea>
-            <Fab icon="fa-save" />
+            <Fab icon="fa-save" @on-click="saveEntry" />
             <img
                 src="https://www.batiburrillo.net/wp-content/uploads/2019/07/Ampliacio%CC%81n-de-imagen-en-li%CC%81nea-sin-perder-calidad.jpg"
                 alt="entry-pictue"
@@ -36,7 +36,7 @@
 
 <script>
 import { defineAsyncComponent } from "vue";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from 'vuex';
 import getDayMonthYear from "../helpers/getDayMonthYear";
 export default {
     props: {
@@ -70,7 +70,10 @@ export default {
         }
     },
     methods: {
+        ...mapActions('journal',['updateEntry']),
+
         loadEntry() {
+            
             const entry = this.getEntriesById(this.id);
             if(!entry){
                return this.$router.push({name:'no-entry'});
@@ -79,6 +82,11 @@ export default {
                 this.entry = entry;
             
         },
+         async saveEntry(){
+             this.updateEntry(this.entry);
+            // console.log('Guardando entrada')
+
+        }
     },
     created() {
        this.loadEntry()
