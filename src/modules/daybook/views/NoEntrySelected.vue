@@ -2,16 +2,21 @@
     <div class="d-flex justify-content-center">
         <h1 class="align-self-center">Nothing selected</h1>
     </div>
-        <Fab/>
+    <Fab @on-click="cerateNewEntry" />
 </template>
 
 <script>
-import { defineAsyncComponent } from 'vue';
+import { defineAsyncComponent } from "vue";
 export default {
-    components:{
-        Fab:defineAsyncComponent(()=>import('../components/Fab.vue')),
-    }
-}
+    components: {
+        Fab: defineAsyncComponent(() => import("../components/Fab.vue")),
+    },
+    methods: {
+        cerateNewEntry() {
+            this.$router.push({ name: "entry", params: { id: "new" } });
+        },
+    },
+};
 </script>
 <style lang="scss" scoped>
 div {

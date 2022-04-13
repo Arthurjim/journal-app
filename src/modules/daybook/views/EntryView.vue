@@ -1,12 +1,10 @@
 <template>
     <template v-if="entry">
-
-
-        <div  class="entry-title d-flex justify-content-between p-2">
+        <div class="entry-title d-flex justify-content-between p-2">
             <div>
-                <span class="text-success fs-3 fw-bold">{{day}}</span>
-                <span class="mx-1 fs-3">{{month}}</span>
-                <span class="mx-2 fs-4 fw-light">{{yearDay}}</span>
+                <span class="text-success fs-3 fw-bold">{{ day }}</span>
+                <span class="mx-1 fs-3">{{ month }}</span>
+                <span class="mx-2 fs-4 fw-light">{{ yearDay }}</span>
             </div>
             <div>
                 <button class="btn btn-danger mx-2">
@@ -20,9 +18,8 @@
             </div>
         </div>
         <hr />
-        <div  class="d-flex flex-column px-3 h-75">
+        <div class="d-flex flex-column px-3 h-75">
             <textarea placeholder="¿Qué sucedió hoy?" v-model="entry.text">
-                
             </textarea>
             <Fab icon="fa-save" @on-click="saveEntry" />
             <img
@@ -36,7 +33,7 @@
 
 <script>
 import { defineAsyncComponent } from "vue";
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions } from "vuex";
 import getDayMonthYear from "../helpers/getDayMonthYear";
 export default {
     props: {
@@ -52,52 +49,62 @@ export default {
     },
     components: {
         Fab: defineAsyncComponent(() => import("../components/Fab.vue")),
-
     },
     computed: {
         ...mapGetters("journal", ["getEntriesById"]),
-        day(){
-            const { day} = getDayMonthYear(this.entry.date);
-            return day
+        day() {
+            const { day } = getDayMonthYear(this.entry.date);
+            return day;
         },
-         month(){
-            const { month} = getDayMonthYear(this.entry.date);
-            return month
+        month() {
+            const { month } = getDayMonthYear(this.entry.date);
+            return month;
         },
-        yearDay(){
-            const {yearDay} = getDayMonthYear(this.entry.date);
-            return  yearDay;
-        }
+        yearDay() {
+            const { yearDay } = getDayMonthYear(this.entry.date);
+            return yearDay;
+        },
     },
     methods: {
-        ...mapActions('journal',['updateEntry']),
+        ...mapActions("journal", ["updateEntry","createEntry"]),
 
         loadEntry() {
-            
-            const entry = this.getEntriesById(this.id);
-            if(!entry){
-               return this.$router.push({name:'no-entry'});
+            let entry;
+            if (this.id === "new") {
+                entry = {
+                    date: new Date().getTime(),
+                    text: "",
+                };
+            } else {
+                entry = this.getEntriesById(this.id);
+                if (!entry) {
+                    return this.$router.push({ name: "no-entry" });
+                }
             }
-            
-                this.entry = entry;
-            
-        },
-         async saveEntry(){
-             this.updateEntry(this.entry);
-            // console.log('Guardando entrada')
 
-        }
+            this.entry = entry;
+        },
+        async saveEntry() {
+            if(this.entry.id){
+
+                await this.updateEntry(this.entry);
+            }else{
+                // await this.createEntry(this.entry);
+
+            }
+            // console.log('Guardando entrada')
+        },
     },
     created() {
-       this.loadEntry()
+        this.loadEntry();
     },
-    watch:{
-        id(value, oldValue){
-            if(value !== oldValue){
+    watch: {
+        id(value, oldValue) {
+            if (value !== oldValue) {
                 this.loadEntry();
             }
-        }
-    }
+        },
+    },
 };
 </script>
 
