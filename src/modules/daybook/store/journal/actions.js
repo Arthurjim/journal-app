@@ -31,3 +31,11 @@ export const createEntry = async ({commit},entry) => {
     commit("addEntry",newEntry)
     return  data.name
 };
+
+export const deleteEntry = async({commit},id)=>{
+    await journalApi.delete(
+        `/entries/${id}.json`,
+        id
+    );
+    commit('deleteEntry',id)
+}

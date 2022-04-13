@@ -7,7 +7,9 @@
                 <span class="mx-2 fs-4 fw-light">{{ yearDay }}</span>
             </div>
             <div>
-                <button class="btn btn-danger mx-2">
+                <button class="btn btn-danger mx-2" 
+                    v-if="entry.id"
+                    @click="onDeleteEntry">
                     Borrar
                     <i class="fa fa-trash-alt"></i>
                 </button>
@@ -66,7 +68,7 @@ export default {
         },
     },
     methods: {
-        ...mapActions("journal", ["updateEntry","createEntry"]),
+        ...mapActions("journal", ["updateEntry","createEntry","deleteEntry"]),
 
         loadEntry() {
             let entry;
@@ -94,6 +96,11 @@ export default {
             }
             // console.log('Guardando entrada')
         },
+        async onDeleteEntry(){
+           await this.deleteEntry(this.entry.id)
+                this.$router.push({name:'no-entry'})
+
+        }
     },
     created() {
         this.loadEntry();
