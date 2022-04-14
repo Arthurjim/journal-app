@@ -104,8 +104,23 @@ export default {
             // console.log('Guardando entrada')
         },
         async onDeleteEntry(){
-           await this.deleteEntry(this.entry.id)
+            const {value:confirm} = await Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¡No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '¡Sí, bórralo!'
+            })
+            if(confirm){
+                Swal.showLoading();
+
+                await this.deleteEntry(this.entry.id);
                 this.$router.push({name:'no-entry'})
+                Swal.fire('Eliminado', 'Se ha eliminado correctamente', 'success');
+            }
+          
 
         }
     },
