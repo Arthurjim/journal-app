@@ -36,6 +36,7 @@
 <script>
 import { defineAsyncComponent } from "vue";
 import { mapGetters, mapActions } from "vuex";
+import Swal from 'sweetalert2'
 import getDayMonthYear from "../helpers/getDayMonthYear";
 export default {
     props: {
@@ -87,6 +88,11 @@ export default {
             this.entry = entry;
         },
         async saveEntry() {
+            new Swal({
+                title:"Espere por favor",
+                allowOutsideClick: false,
+            })
+            Swal.showLoading();
             if(this.entry.id){
 
                 await this.updateEntry(this.entry);
@@ -94,6 +100,7 @@ export default {
                const id = await this.createEntry(this.entry);
                 this.$router.push({name:'entry',params:{id}})
             }
+            Swal.fire('Guardado', 'Se ha guardado correctamente', 'success');
             // console.log('Guardando entrada')
         },
         async onDeleteEntry(){
