@@ -7,6 +7,7 @@
                 <span class="mx-2 fs-4 fw-light">{{ yearDay }}</span>
             </div>
             <div>
+                <input type="file" @change="onSelectedImage">
                 <button class="btn btn-danger mx-2" 
                     v-if="entry.id"
                     @click="onDeleteEntry">
@@ -25,9 +26,10 @@
             </textarea>
             <Fab icon="fa-save" @on-click="saveEntry" />
             <img
-                src="https://www.batiburrillo.net/wp-content/uploads/2019/07/Ampliacio%CC%81n-de-imagen-en-li%CC%81nea-sin-perder-calidad.jpg"
+                :src="localImage"
                 alt="entry-pictue"
                 class="img-thumbnail"
+                v-if="localImage"
             />
         </div>
     </template>
@@ -48,6 +50,8 @@ export default {
     data() {
         return {
             entry: null,
+            localImage: null,
+            file:null
         };
     },
     components: {
@@ -122,7 +126,21 @@ export default {
             }
           
 
-        }
+        },
+        onSelectedImage(event){
+           const file = event.target.files[0]
+           if(!file) {
+                this.file = null
+
+               return
+           }
+            this.file = file
+           const fr = new FileReader()
+
+            fr.onload = ()=>this.localImage = fr.result
+            fr.readAsDataURL(file)
+        },
+        
     },
     created() {
         this.loadEntry();
