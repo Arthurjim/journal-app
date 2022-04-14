@@ -32,10 +32,16 @@
             </textarea>
             <Fab icon="fa-save" @on-click="saveEntry" />
             <img
+                :src="entry.url"
+                alt="entry-pictue"
+                class="img-thumbnail"
+                v-if="entry.url"
+            />
+            <img
                 :src="localImage"
                 alt="entry-pictue"
                 class="img-thumbnail"
-                v-if="localImage"
+                v-if="localImage && !localImage"
             />
         </div>
     </template>
@@ -46,6 +52,7 @@ import { defineAsyncComponent } from "vue";
 import { mapGetters, mapActions } from "vuex";
 import Swal from 'sweetalert2'
 import getDayMonthYear from "../helpers/getDayMonthYear";
+import {uploadImage} from '../helpers/uploadImage'
 export default {
     props: {
         id: {
@@ -87,6 +94,7 @@ export default {
                 entry = {
                     date: new Date().getTime(),
                     text: "",
+                    url:""
                 };
             } else {
                 entry = this.getEntriesById(this.id);
@@ -103,15 +111,20 @@ export default {
                 allowOutsideClick: false,
             })
             Swal.showLoading();
+            if(this.localImage){
+                    this.entry.url = await uploadImage(this.file);
+                }
             if(this.entry.id){
-
+               
                 await this.updateEntry(this.entry);
             }else{
+                 
                const id = await this.createEntry(this.entry);
                 this.$router.push({name:'entry',params:{id}})
             }
+            this.file=null;
+            this.localImage=null;
             Swal.fire('Guardado', 'Se ha guardado correctamente', 'success');
-            // console.log('Guardando entrada')
         },
         async onDeleteEntry(){
             const {value:confirm} = await Swal.fire({
