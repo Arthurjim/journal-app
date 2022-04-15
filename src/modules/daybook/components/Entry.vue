@@ -4,19 +4,40 @@
         @click="$router.push({ name: 'entry', params: { id: entry.id } })"
     >
         <div class="entry-title d-flex">
-            <span class="text-succes fs-5 fw-bold">{{day}}</span>
-            <span class="mx-1 fs-5">{{month}}</span>
-            <span class="mx-5 fw-light">{{yearDay}}</span>
+            <span class="text-succes fs-5 fw-bold">{{ day }}</span>
+            <span class="mx-1 fs-5">{{ month }}</span>
+            <span class="mx-5 fw-light">{{ yearDay }}</span>
         </div>
         <div class="entry-description">
-            {{ shortText}}
+            {{ shortText }}
         </div>
     </div>
 </template>
 
 <script>
-const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio','Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-const days   = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado']
+const months = [
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre",
+];
+const days = [
+    "Domingo",
+    "Lunes",
+    "Martes",
+    "Miércoles",
+    "Jueves",
+    "Viernes",
+    "Sábado",
+];
 export default {
     props: {
         entry: {
@@ -30,18 +51,18 @@ export default {
                 ? this.entry.text.substring(0, 130) + "..."
                 : this.entry.text;
         },
-        day(){
+        day() {
             const date = new Date(this.entry.date);
-            return date.getDate()
+            return date.getDate();
         },
-        month(){
+        month() {
             const date = new Date(this.entry.date);
-            return months[date.getMonth()]
+            return months[date.getMonth()];
         },
-        yearDay(){
+        yearDay() {
             const date = new Date(this.entry.date);
-            return `${date.getFullYear()}, ${days[date.getDay()]}`
-        }
+            return `${date.getFullYear()}, ${days[date.getDay()]}`;
+        },
     },
 };
 </script>
