@@ -7,16 +7,18 @@
                 <span class="mx-2 fs-4 fw-light">{{ yearDay }}</span>
             </div>
             <div>
-                <input 
-                    type="file" 
-                    @change="onSelectedImage" 
-                    ref="imageSelector" 
+                <input
+                    type="file"
+                    @change="onSelectedImage"
+                    ref="imageSelector"
                     v-show="false"
                     accept="image/png, image/jpeg, image/jpg"
-                    >
-                <button class="btn btn-danger mx-2" 
+                />
+                <button
+                    class="btn btn-danger mx-2"
                     v-if="entry.id"
-                    @click="onDeleteEntry">
+                    @click="onDeleteEntry"
+                >
                     Borrar
                     <i class="fa fa-trash-alt"></i>
                 </button>
@@ -50,9 +52,9 @@
 <script>
 import { defineAsyncComponent } from "vue";
 import { mapGetters, mapActions } from "vuex";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 import getDayMonthYear from "../helpers/getDayMonthYear";
-import {uploadImage} from '../helpers/uploadImage'
+import { uploadImage } from "../helpers/uploadImage";
 export default {
     props: {
         id: {
@@ -64,7 +66,7 @@ export default {
         return {
             entry: null,
             localImage: null,
-            file:null
+            file: null,
         };
     },
     components: {
@@ -86,7 +88,7 @@ export default {
         },
     },
     methods: {
-        ...mapActions("journal", ["updateEntry","createEntry","deleteEntry"]),
+        ...mapActions("journal", ["updateEntry", "createEntry", "deleteEntry"]),
 
         loadEntry() {
             let entry;
@@ -94,7 +96,7 @@ export default {
                 entry = {
                     date: new Date().getTime(),
                     text: "",
-                    url:""
+                    url: "",
                 };
             } else {
                 entry = this.getEntriesById(this.id);
@@ -107,63 +109,61 @@ export default {
         },
         async saveEntry() {
             new Swal({
-                title:"Espere por favor",
+                title: "Espere por favor",
                 allowOutsideClick: false,
-            })
+            });
             Swal.showLoading();
-            if(this.localImage){
-                    this.entry.url = await uploadImage(this.file);
-                }
-            if(this.entry.id){
-               
-                await this.updateEntry(this.entry);
-            }else{
-                 
-               const id = await this.createEntry(this.entry);
-                this.$router.push({name:'entry',params:{id}})
+            if (this.localImage) {
+                this.entry.url = await uploadImage(this.file);
             }
-            this.file=null;
-            this.localImage=null;
-            Swal.fire('Guardado', 'Se ha guardado correctamente', 'success');
+            if (this.entry.id) {
+                await this.updateEntry(this.entry);
+            } else {
+                const id = await this.createEntry(this.entry);
+                this.$router.push({ name: "entry", params: { id } });
+            }
+            this.file = null;
+            this.localImage = null;
+            Swal.fire("Guardado", "Se ha guardado correctamente", "success");
         },
-        async onDeleteEntry(){
-            const {value:confirm} = await Swal.fire({
-                title: '¿Estás seguro?',
+        async onDeleteEntry() {
+            const { value: confirm } = await Swal.fire({
+                title: "¿Estás seguro?",
                 text: "¡No podrás revertir esto!",
-                icon: 'warning',
+                icon: "warning",
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: '¡Sí, bórralo!'
-            })
-            if(confirm){
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "¡Sí, bórralo!",
+            });
+            if (confirm) {
                 Swal.showLoading();
 
                 await this.deleteEntry(this.entry.id);
-                this.$router.push({name:'no-entry'})
-                Swal.fire('Eliminado', 'Se ha eliminado correctamente', 'success');
+                this.$router.push({ name: "no-entry" });
+                Swal.fire(
+                    "Eliminado",
+                    "Se ha eliminado correctamente",
+                    "success"
+                );
             }
-          
-
         },
-        onSelectedImage(event){
-           const file = event.target.files[0]
-           if(!file) {
-                this.file = null
+        onSelectedImage(event) {
+            const file = event.target.files[0];
+            if (!file) {
+                this.file = null;
 
-               return
-           }
-            this.file = file
-           const fr = new FileReader()
+                return;
+            }
+            this.file = file;
+            const fr = new FileReader();
 
-            fr.onload = ()=>this.localImage = fr.result
-            fr.readAsDataURL(file)
+            fr.onload = () => (this.localImage = fr.result);
+            fr.readAsDataURL(file);
         },
-        onSelecImage(){
-           this.$refs.imageSelector.click()
-
-        }
-        
+        onSelecImage() {
+            this.$refs.imageSelector.click();
+        },
     },
     created() {
         this.loadEntry();
