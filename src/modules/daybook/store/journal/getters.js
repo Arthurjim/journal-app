@@ -15,7 +15,3 @@ export const getEntriesById = (state)=>(id='')=>{
     return {...entry} // TODO se mutael estado 
 
 }
-
-export const crreateEntry = (/*state*/)=>{
-    // return state
-}
