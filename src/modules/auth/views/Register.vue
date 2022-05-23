@@ -13,7 +13,7 @@
             <span class="focus-input100" data-placeholder="&#xe818;"></span>
         </div>
         <div class="wrap-input100 validate-input" data-validate="Ingrese contraseña">
-            <input class="input100" type="password" placeholder="Contraseña" required>
+            <input class="input100" type="password" placeholder="Contraseña" autocomplete="off" required>
             <span class="focus-input100" data-placeholder="&#xe80f;"></span>
         </div>
 
