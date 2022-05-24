@@ -4,11 +4,12 @@ export const createUser = async({commit},user)=>{
     const {name, email, password} = user;
     try {
         const {data} = await authApi.post(':signUp',{email, password, returnSecureToken: true});
-        const {idToken}=data;
-        const resp = await authApi.post(':update',{displayName:name, idToken});
-        console.log(resp)
-     
+        const {idToken,refreshToken}=data;
+        //Se actualiza el nombre del usuario
+        await authApi.post(':update',{displayName:name, idToken});
+        delete user.password;
         // TODO Mutation: loginUser
+        commit('loginUser',{user, idToken,refreshToken});
         return {ok:true}
     } catch (error) {
        
