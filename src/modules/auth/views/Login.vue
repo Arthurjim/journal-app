@@ -2,7 +2,7 @@
     <span class="login100-form-title p-b-41">
         Ingresar
     </span>
-    <form @submit.prevent="onSubmit" class="login100-form validate-form p-b-33 p-t-5">
+    <form @submit.prevent="onSubmit" class="login100-form validate-form ">
 
         <div class="wrap-input100 validate-input" data-validate = "Enter username">
             <input v-model="userForm.email" class="input100" type="text" placeholder="Correo" required>
