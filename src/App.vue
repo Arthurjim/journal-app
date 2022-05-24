@@ -1,8 +1,20 @@
 <template>
- 
-  <router-view/>
+  <h1 v-if="authStatus === 'authenticating'">Loading</h1>
+  <router-view v-else/>
+
 </template>
 
-<style>
+<script>
+import useAuth from './modules/auth/composables/useAuth'
+export default{
+  setup(){
+    const {authStatus,checkAuthStatus} = useAuth()
 
-</style>
+    checkAuthStatus()
+    return{
+      authStatus
+    }
+  }
+
+}
+</script>
