@@ -12,8 +12,6 @@ export const uploadImage =async (file)=>{
         const {data} = await axios.post(url,formData)
         return data.secure_url
     } catch (error) {
-        console.log('Error al cargar la imagen')
-        console.log(error)
         return null
     }
 }
