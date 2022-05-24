@@ -36,15 +36,16 @@ import useAuth from '../composables/useAuth'
 export default {
     setup(){
         const userForm = ref({
-            name: '',
-            email: '',
-            password: ''
+            name: 'Arturo',
+            email: 'arturo@gmail.com',
+            password: '123456'
         })
         const {createUser}=useAuth()
         return {
             userForm,
             onSubmit:async ()=>{
-                createUser(userForm.value)
+               const {ok,message}= await createUser(userForm.value)
+               console.log(ok,message)
             }
         }
     }
