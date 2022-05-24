@@ -14,14 +14,22 @@ const useAuth=()=>{
     }
     const checkAuthStatus = async ()=>{
         const resp = await store.dispatch('auth/checkAuthentication')
+        
         return resp
+    }
+    const logoutUser = async ()=>{
+       const resp = await store.dispatch('auth/logoutUser')
+            return resp
+
     }
 
     return {
         checkAuthStatus,
         createUser,
         loginUser,
-        authStatus:computed(()=>store.getters['auth/currentState'])
+        logoutUser,
+        authStatus:computed(()=>store.getters['auth/currentState']),
+        userName:computed(()=>store.getters['auth/username'])
     }
 }
 export default useAuth
