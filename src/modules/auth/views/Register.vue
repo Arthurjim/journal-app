@@ -39,9 +39,9 @@ export default {
     setup(){
         const router = useRouter()
         const userForm = ref({
-            name: 'Arturo',
-            email: 'arturo@gmail.com',
-            password: '123456'
+            name: '',
+            email: '',
+            password: ''
         })
         const {createUser}=useAuth()
         return {
