@@ -43,7 +43,7 @@
                 :src="localImage"
                 alt="entry-pictue"
                 class="img-thumbnail"
-                v-if="localImage && !localImage"
+                v-if="localImage && !entry.url"
             />
         </div>
     </template>
