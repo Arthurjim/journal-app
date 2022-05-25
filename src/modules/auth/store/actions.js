@@ -20,10 +20,11 @@ export const loginUser = async({commit},user)=>{
     const {email, password} = user;
     try {
         const {data} = await authApi.post(':signInWithPassword',{email, password, returnSecureToken: true});
-        const {displayName,idToken,refreshToken}=data;
+        const {displayName,idToken,localId,refreshToken}=data;
+
         user.name = displayName;
         delete user.password;
-        commit('loginUser',{user, idToken,refreshToken});
+        commit('loginUser',{user,localId, idToken,refreshToken});
 
         return {ok:true}
     } catch (error) {
@@ -40,12 +41,12 @@ export const checkAuthentication = async ({commit})=>{
     }
     try {
         const {data} = await authApi.post(':lookup',{idToken});
-        const {displayName,email}=data.users[0];
+        const {displayName,email,localId}=data.users[0];
         const user ={
             name:displayName,
             email
         }
-        commit('loginUser',{user, idToken,refreshToken});
+        commit('loginUser',{user, localId,idToken,refreshToken});
 
         return {ok:true}
         
