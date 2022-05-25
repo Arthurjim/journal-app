@@ -19,6 +19,8 @@ const useAuth=()=>{
     }
     const logoutUser = async ()=>{
        const resp = await store.dispatch('auth/logoutUser')
+        store.commit('journal/clearEntries')
+
             return resp
 
     }
