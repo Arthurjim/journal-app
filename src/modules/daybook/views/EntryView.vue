@@ -118,9 +118,12 @@ export default {
             }
             if (this.entry.id) {
                 await this.updateEntry(this.entry);
+                Swal.close();
+
             } else {
-                const id = await this.createEntry(this.entry);
-                this.$router.push({ name: "entry", params: { id } });
+               await this.createEntry(this.entry);
+                this.$router.push({ name: "no-entry",});
+                Swal.close();
             }
             this.file = null;
             this.localImage = null;
