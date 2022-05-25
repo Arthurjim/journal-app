@@ -1,7 +1,7 @@
 import journalApi from "@/api/journalApi";
-
-export const loadEntries = async ({ commit }) => {
-    const { data } = await journalApi.get("/entries.json");
+export const loadEntries = async ({ commit,rootState }) => {
+    const uuid = rootState.auth.localId;
+    const { data } = await journalApi.get(`${uuid}/entries.json`);
     const entries = [];
     if (!data) {
         commit("setEntries", []);
@@ -16,15 +16,17 @@ export const loadEntries = async ({ commit }) => {
     commit("setEntries", entries);
 };
 
-export const updateEntry = async ({ commit }, entry) => {
+export const updateEntry = async ({ commit,rootState }, entry) => {
+    const uuid = rootState.auth.localId;
     const entryData = Object.assign({}, entry);
     delete entryData.id;
-    await journalApi.put(`/entries/${entry.id}.json`, entryData);
+    await journalApi.put(`${uuid}/entries/${entry.id}.json`, entryData);
     commit("updateEntry", { ...entry });
 };
+export const createEntry = async ({ commit,rootState }, entry ) => {
+    const uuid = rootState.auth.localId;
+    const { data } = await journalApi.post(`${uuid}/entries.json`, entry);
 
-export const createEntry = async ({ commit }, entry) => {
-    const { data } = await journalApi.post("/entries.json", entry);
     const newEntry = {
         id: data.name,
         ...entry,
@@ -33,7 +35,8 @@ export const createEntry = async ({ commit }, entry) => {
     return data.name;
 };
 
-export const deleteEntry = async ({ commit }, id) => {
-    await journalApi.delete(`/entries/${id}.json`, id);
+export const deleteEntry = async ({ commit,rootState }, id) => {
+    const uuid = rootState.auth.localId;
+    await journalApi.delete(`${uuid}/entries/${id}.json`, id);
     commit("deleteEntry", id);
 };
